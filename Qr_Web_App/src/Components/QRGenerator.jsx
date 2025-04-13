@@ -1,6 +1,6 @@
 // Module Imports
 import React, { useEffect , useRef , useState } from 'react';
-import {QrCodeStyling} from 'qr-code-styling';
+import {errorCorrectionLevels, QrCodeStyling} from 'qr-code-styling';
 /**
  * 
  *  QR Code Generation
@@ -48,7 +48,23 @@ const QRGenerator = () => {
         })
     );
 
-    
+    // Update the QR Code every time an option has been changed
+    useEffect(() => {
+        qrCode.current.update({
+            data,
+            qrOptions: { errorCorrectionLevels: errorCorrection },
+            dotsOptions: { type: dotstyle, color: dotColor },
+            cornersSquareOptions: { type: eyeStyle },
+            backgroundOptions: { color: bgColor},
+            image: logoFile ? URL.createObjectURL(logoFile): '',
+        });
+
+        // Append to DOM if not already done
+        if ( qrRef.current ) {
+            qrRef.current.innerHTML = ''; // Clear previous
+            qrCode.current.append(qrRef.current);
+        }
+    }, [ input, dotStyle, dotColor, eyeStyle, bgColor, image, errorCorrection ]);
 
     return (
         <div style={{padding: '1rem'}}>
