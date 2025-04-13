@@ -35,7 +35,7 @@ const QRGenerator = () => {
                     Error Correction Label:&nbsp;
                     <select
                     value={errorCorrection}
-                    onChange={(e) => setInput(e.target.value)}
+                    onChange={(e) => setErrorCorrection(e.target.value)}
                     >
                         <option value="L">L (Low)       </option>
                         <option value="M">M (Medium)    </option>
@@ -44,6 +44,20 @@ const QRGenerator = () => {
                     </select>
                 </label>
             </div>
+
+            {/* QR Code SVG Rendering */}
+            { input && (
+                <div style={{margin:"1rem 0"}}>
+                    <QRCodeSVG
+                    value={input}
+                    size={256}
+                    level={errorCorrection}
+                    includeMargin={true}
+                    />
+                </div>
+            )}
         </div>
     )
 }
+
+export default QRGenerator;
