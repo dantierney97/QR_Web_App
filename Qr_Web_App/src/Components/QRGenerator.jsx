@@ -28,6 +28,22 @@ const QRGenerator = () => {
             onChange={(e) => setInput(e.target.value)}
             style={{ width: '100%', padding: '0.5rem', fontSize: '1rem'}}
             />
+
+            {/* Dropdown menu for error correction */}
+            <div style={{margin: '1rem 0'}}>
+                <label>
+                    Error Correction Label:&nbsp;
+                    <select
+                    value={errorCorrection}
+                    onChange={(e) => setInput(e.target.value)}
+                    >
+                        <option value="L">L (Low)       </option>
+                        <option value="M">M (Medium)    </option>
+                        <option value="Q">Q (Quartile)  </option>
+                        <option value="H">H (High)      </option>
+                    </select>
+                </label>
+            </div>
         </div>
     )
 }
