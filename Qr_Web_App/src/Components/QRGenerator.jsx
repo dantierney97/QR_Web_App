@@ -12,8 +12,15 @@ import {QrCodeStyling} from 'qr-code-styling';
  */
 
 const QRGenerator = () => {
-    const [ input , setInput ] = useState('');
+    const qrRef = useRef(null);
+    const [ input , setInput ] = useState('This is a QR Code');
     const [ errorCorrection, setErrorCorrection ] = useState('M');
+    const [ eyestyle, setEyeStyle ] = useState('square');   // Eye Shape (Square or Circle)
+    const [ dotStyle , setDotStyle ] = useState('square');  // Dot Shape (Square or Circle)
+    const [ dotColor, setDotColor ] = useState('#000000');  // Foreground Color
+    const [ bgColor, setBGColor ] = useState('#ffffff');    // Background Color
+    const [ logoImage, setLogoImage ] = useState(null);     // Logo Image
+
 
     return (
         <div style={{padding: '1rem'}}>
