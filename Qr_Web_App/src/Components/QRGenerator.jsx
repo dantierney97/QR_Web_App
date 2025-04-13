@@ -1,7 +1,6 @@
 // Module Imports
-import React, { useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
-
+import React, { useEffect , useRef , useState } from 'react';
+import {QrCodeStyling} from 'qr-code-styling';
 /**
  * 
  *  QR Code Generation
