@@ -21,6 +21,34 @@ const QRGenerator = () => {
     const [ bgColor, setBGColor ] = useState('#ffffff');    // Background Color
     const [ logoImage, setLogoImage ] = useState(null);     // Logo Image
 
+    // Create the QR Code Instance
+    const qrCode = useRef(
+        new QRCodeStyling({
+            width: 256,
+            height: 256,
+            data: input,
+            qrOptions: {
+                errorCorrectionLevels: errorCorrection,
+            },
+            dotsOptions: {
+                type: dotStyle,
+                color: dotColor,
+            },
+            cornersSquareStyle: {
+                type: eyestyle,
+            },
+            backgroundOptions: {
+                color: bgColor,
+            },
+            image: '',
+            imageOptions: {
+                crossOrigin: 'anonymous',
+                margin: 10,
+            },
+        })
+    );
+
+    
 
     return (
         <div style={{padding: '1rem'}}>
