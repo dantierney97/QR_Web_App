@@ -18,7 +18,16 @@ const QRGenerator = () => {
 
     return (
         <div style={{padding: '1rem'}}>
+            <h2>QR Generator</h2>
 
+            {/* User input for QR Generator Component */}
+            <input
+            type="text"
+            placeholder="Enter text or URL"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            style={{ width: '100%', padding: '0.5rem', fontSize: '1rem'}}
+            />
         </div>
     )
 }
