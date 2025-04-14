@@ -7,7 +7,7 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['favicon.svg', 'assets/icon-192.png', 'assets/icon-512.png'],
+            includeAssets: ['favicon.svg', 'assets/icon192.png', 'assets/icon512.png'],
             manifest: {
                 name: 'QR Code Generator',
                 short_name: 'QRGen',
@@ -17,12 +17,12 @@ export default defineConfig({
                 theme_color: '#1e1e1e',
                 icons: [
                     {
-                        src: 'assets/icon-192.png',
+                        src: 'assets/icon192.png',
                         sizes: '192x192',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/icon-512.png',
+                        src: 'assets/icon512.png',
                         sizes: '512x512',
                         type: 'image/png',
                     },
