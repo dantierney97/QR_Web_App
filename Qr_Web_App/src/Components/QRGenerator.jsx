@@ -82,15 +82,33 @@ const QRGenerator = () => {
             cornersDotOptions: { type: eyeStyle },
             backgroundOptions: { color: bgColor },
             image: logoImage ? URL.createObjectURL(logoImage) : '',
-            imageOptions: { imageSize: parseFloat(logoSize) },
+            imageOptions: {
+                crossOrigin: 'anonymous',
+                imageSize: parseFloat(logoSize),
+                margin: 10,
+            },
         });
 
-        // Append to DOM if not already done
+        // Clear and re-append the QR code every time
         if (qrRef.current) {
-            qrRef.current.innerHTML = ''; // Clear previous
+            qrRef.current.innerHTML = '';
             qrCode.current.append(qrRef.current);
         }
-    }, [input, dotStyle, dotColor, eyeStyle, bgColor, logoImage, errorCorrection, dotColorMode, dotGradientType, dotGradientRotation, dotGradientStart, dotGradientEnd]);
+    }, [
+        input,
+        dotStyle,
+        dotColor,
+        eyeStyle,
+        bgColor,
+        logoImage,
+        errorCorrection,
+        dotColorMode,
+        dotGradientType,
+        dotGradientRotation,
+        dotGradientStart,
+        dotGradientEnd,
+        logoSize
+    ]);
 
     const handleDownload = (format) => {
         qrCode.current.download({ extension: format });
