@@ -125,7 +125,7 @@ const QRGenerator = () => {
 
     return (
         <div style={{ padding: '1rem', maxWidth: '400px', margin: 'auto' }}>
-            <h2>Custom QR Code Generator</h2>
+            <h2>QR Code Generator</h2>
 
             {/* Input Field */}
             <input
@@ -262,6 +262,9 @@ const QRGenerator = () => {
                     Download SVG
                 </button>
             </div>
+
+            <p>Copyright © 2025 Daniel J Tierney.</p>
+            <p>All Rights Reserved.</p>
         </div>
     );
 }
