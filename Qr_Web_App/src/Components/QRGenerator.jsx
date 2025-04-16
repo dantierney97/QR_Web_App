@@ -13,6 +13,7 @@ import QRCodeStyling from 'qr-code-styling';
 
 const QRGenerator = () => {
     const qrRef = useRef(null);
+    const qrCode = useRef(null); // Initialize qrCode as an empty ref
     const [input, setInput] = useState('This is a QR Code');
     const [errorCorrection, setErrorCorrection] = useState('M');
     const [eyeStyle, setEyeStyle] = useState('square');     // Eye Shape (Square or Circle)
@@ -27,9 +28,9 @@ const QRGenerator = () => {
     const [dotGradientEnd, setDotGradientEnd] = useState('#ff0000');
     const [logoMargin, setLogoMargin] = useState(10);       // Logo Margin
 
-    // Create the QR Code Instance
-    const qrCode = useRef(
-        new QRCodeStyling({
+    // Initialize qrCode on mount
+    useEffect(() => {
+        qrCode.current = new QRCodeStyling({
             width: 256,
             height: 256,
             data: input,
@@ -38,24 +39,34 @@ const QRGenerator = () => {
             },
             dotsOptions: {
                 type: dotStyle,
-                color: dotColor,
+                ...(dotColorMode === 'solid'
+                    ? { color: dotColor }
+                    : {
+                        gradient: {
+                            type: dotGradientType,
+                            rotation: parseInt(dotGradientRotation),
+                            colorStops: [
+                                { offset: 0, color: dotGradientStart },
+                                { offset: 1, color: dotGradientEnd },
+                            ],
+                        }
+                    }),
             },
-            cornersSquareOptions: {
-                type: eyeStyle,
-            },
-            cornersDotOptions: {
-                type: eyeStyle,
-            },
-            backgroundOptions: {
-                color: bgColor,
-            },
-            image: '',
+            cornersSquareOptions: { type: eyeStyle },
+            cornersDotOptions: { type: eyeStyle },
+            backgroundOptions: { color: bgColor },
+            image: logoImage ? URL.createObjectURL(logoImage) : '',
             imageOptions: {
                 crossOrigin: 'anonymous',
                 margin: parseInt(logoMargin),
             },
-        })
-    );
+        });
+
+        if (qrRef.current) {
+            qrRef.current.innerHTML = '';
+            qrCode.current.append(qrRef.current);
+        }
+    }, []);
 
     // Update the QR Code every time an option has been changed
     useEffect(() => {
