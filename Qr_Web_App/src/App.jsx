@@ -6,7 +6,6 @@ function App() {
 
     return (
         <div>
-            <h1>Hello from QRGenerator</h1>
             <QRGenerator />
         </div>
     );

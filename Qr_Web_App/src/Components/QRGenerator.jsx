@@ -241,14 +241,16 @@ const QRGenerator = () => {
                 />
             </div>
 
-            <div style={{ marginTop: '1rem' }}>
-                <label>Logo Margin: </label>
-                <select value={logoMargin} onChange={(e) => setLogoMargin(e.target.value)}>
-                    <option value={1}>1</option>
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                </select>
-            </div>
+            {logoImage && (
+                <div style={{ marginTop: '1rem' }}>
+                    <label>Logo Margin: </label>
+                    <select value={logoMargin} onChange={(e) => setLogoMargin(e.target.value)}>
+                        <option value={1}>1</option>
+                        <option value={5}>5</option>
+                        <option value={10}>10</option>
+                    </select>
+                </div>
+            )}
 
             {/* Rendered QR Code */}
             <div ref={qrRef} style={{ marginTop: '1.5rem' }}></div>
