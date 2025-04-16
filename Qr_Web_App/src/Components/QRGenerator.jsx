@@ -21,6 +21,11 @@ const QRGenerator = () => {
     const [bgColor, setBgColor] = useState('#ffffff');      // Background Color
     const [logoImage, setLogoImage] = useState(null);       // Logo Image
     const [logoSize, setLogoSize] = useState("0.4");        //Logo Size
+    const [dotColorMode, setDotColorMode] = useState('solid');
+    const [dotGradientType, setDotGradientType] = useState('linear');
+    const [dotGradientRotation, setDotGradientRotation] = useState(0);
+    const [dotGradientStart, setDotGradientStart] = useState('#000000');
+    const [dotGradientEnd, setDotGradientEnd] = useState('#ff0000');
 
     // Create the QR Code Instance
     const qrCode = useRef(
@@ -47,7 +52,7 @@ const QRGenerator = () => {
             image: '',
             imageOptions: {
                 crossOrigin: 'anonymous',
-                imageSize: imageSize,
+                imageSize: parseFloat(logoSize),
                 margin: 10,
             },
         })
@@ -58,12 +63,26 @@ const QRGenerator = () => {
         qrCode.current.update({
             data: input,
             qrOptions: { errorCorrectionLevel: errorCorrection },
-            dotsOptions: { type: dotStyle, color: dotColor },
+            dotsOptions: {
+                type: dotStyle,
+                ...(dotColorMode === 'solid'
+                    ? { color: dotColor }
+                    : {
+                        gradient: {
+                            type: dotGradientType,
+                            rotation: parseInt(dotGradientRotation),
+                            colorStops: [
+                                { offset: 0, color: dotGradientStart },
+                                { offset: 1, color: dotGradientEnd },
+                            ],
+                        }
+                    }),
+            },
             cornersSquareOptions: { type: eyeStyle },
             cornersDotOptions: { type: eyeStyle },
             backgroundOptions: { color: bgColor },
             image: logoImage ? URL.createObjectURL(logoImage) : '',
-            imageOptions: { imageSize: imageSize },
+            imageOptions: { imageSize: parseFloat(logoSize) },
         });
 
         // Append to DOM if not already done
@@ -71,7 +90,7 @@ const QRGenerator = () => {
             qrRef.current.innerHTML = ''; // Clear previous
             qrCode.current.append(qrRef.current);
         }
-    }, [input, dotStyle, dotColor, eyeStyle, bgColor, logoImage, errorCorrection]);
+    }, [input, dotStyle, dotColor, eyeStyle, bgColor, logoImage, errorCorrection, dotColorMode, dotGradientType, dotGradientRotation, dotGradientStart, dotGradientEnd]);
 
     const handleDownload = (format) => {
         qrCode.current.download({ extension: format });
@@ -122,18 +141,67 @@ const QRGenerator = () => {
 
             {/* Color Pickers */}
             <div style={{ marginTop: '1rem' }}>
-                <label>Dot Color: </label>
-                <input
-                    type="color"
-                    value={dotColor}
-                    onChange={(e) => setDotColor(e.target.value)}
-                />
-                <label style={{ marginLeft: '1rem' }}>Background: </label>
-                <input
-                    type="color"
-                    value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                />
+                <label>Dot Fill Type: </label>
+                <select value={dotColorMode} onChange={(e) => setDotColorMode(e.target.value)}>
+                    <option value="solid">Solid</option>
+                    <option value="gradient">Gradient</option>
+                </select>
+
+                {dotColorMode === 'solid' ? (
+                    <>
+                        <label style={{ marginLeft: '1rem' }}>Dot Color:</label>
+                        <input
+                            type="color"
+                            value={dotColor}
+                            onChange={(e) => setDotColor(e.target.value)}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <label>Gradient Type: </label>
+                            <select
+                                value={dotGradientType}
+                                onChange={(e) => setDotGradientType(e.target.value)}
+                            >
+                                <option value="linear">Linear</option>
+                                <option value="radial">Radial</option>
+                            </select>
+
+                            <label style={{ marginLeft: '1rem' }}>Rotation: </label>
+                            <input
+                                type="number"
+                                value={dotGradientRotation}
+                                onChange={(e) => setDotGradientRotation(e.target.value)}
+                                style={{ width: '60px' }}
+                            />
+                        </div>
+
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <label>Start Color: </label>
+                            <input
+                                type="color"
+                                value={dotGradientStart}
+                                onChange={(e) => setDotGradientStart(e.target.value)}
+                            />
+                            <label style={{ marginLeft: '1rem' }}>End Color: </label>
+                            <input
+                                type="color"
+                                value={dotGradientEnd}
+                                onChange={(e) => setDotGradientEnd(e.target.value)}
+                            />
+                        </div>
+                    </>
+                )}
+
+                <div style={{ marginTop: '1rem' }}>
+                    <label>Background: </label>
+                    <input
+                        type="color"
+                        value={bgColor}
+                        onChange={(e) => setBgColor(e.target.value)}
+                    />
+                </div>
             </div>
 
             {/* Logo Upload */}
@@ -147,7 +215,7 @@ const QRGenerator = () => {
             </div>
             <div style={{ marginTop: '1rem' }}>
                 <label>Logo Size</label>
-                <select value={imageSize} onChange={(e) => setLogoSize(e.target.value)}>
+                <select value={logoSize} onChange={(e) => setLogoSize(e.target.value)}>
                     <option value="0.1">0.1</option>
                     <option value="0.2">0.2</option>
                     <option value="0.3">0.3</option>
