@@ -15,11 +15,12 @@ const QRGenerator = () => {
     const qrRef = useRef(null);
     const [input, setInput] = useState('This is a QR Code');
     const [errorCorrection, setErrorCorrection] = useState('M');
-    const [eyeStyle, setEyeStyle] = useState('square');   // Eye Shape (Square or Circle)
-    const [dotStyle, setDotStyle] = useState('square');  // Dot Shape (Square or Circle)
-    const [dotColor, setDotColor] = useState('#000000');  // Foreground Color
-    const [bgColor, setBgColor] = useState('#ffffff');    // Background Color
-    const [logoImage, setLogoImage] = useState(null);     // Logo Image
+    const [eyeStyle, setEyeStyle] = useState('square');     // Eye Shape (Square or Circle)
+    const [dotStyle, setDotStyle] = useState('square');     // Dot Shape (Square or Circle)
+    const [dotColor, setDotColor] = useState('#000000');    // Foreground Color
+    const [bgColor, setBgColor] = useState('#ffffff');      // Background Color
+    const [logoImage, setLogoImage] = useState(null);       // Logo Image
+    const [logoSize, setLogoSize] = useState("0.4");        //Logo Size
 
     // Create the QR Code Instance
     const qrCode = useRef(
@@ -46,6 +47,7 @@ const QRGenerator = () => {
             image: '',
             imageOptions: {
                 crossOrigin: 'anonymous',
+                imageSize: imageSize,
                 margin: 10,
             },
         })
@@ -61,6 +63,7 @@ const QRGenerator = () => {
             cornersDotOptions: { type: eyeStyle },
             backgroundOptions: { color: bgColor },
             image: logoImage ? URL.createObjectURL(logoImage) : '',
+            imageOptions: { imageSize: imageSize },
         });
 
         // Append to DOM if not already done
@@ -141,6 +144,21 @@ const QRGenerator = () => {
                     accept="image/*"
                     onChange={(e) => setLogoImage(e.target.files[0])}
                 />
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+                <label>Logo Size</label>
+                <select value={imageSize} onChange={(e) => setLogoSize(e.target.value)}>
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4 (Default)</option>
+                    <option value="0.5">0.5</option>
+                    <option value="0.6">0.6</option>
+                    <option value="0.7">0.7</option>
+                    <option value="0.8">0.8</option>
+                    <option value="0.9">0.9</option>
+                    <option value="1.0">1.0</option>
+                </select>
             </div>
 
             {/* Rendered QR Code */}
