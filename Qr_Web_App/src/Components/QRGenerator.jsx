@@ -25,6 +25,7 @@ const QRGenerator = () => {
     const [dotGradientRotation, setDotGradientRotation] = useState(0);
     const [dotGradientStart, setDotGradientStart] = useState('#000000');
     const [dotGradientEnd, setDotGradientEnd] = useState('#ff0000');
+    const [logoMargin, setLogoMargin] = useState(10);       // Logo Margin
 
     // Create the QR Code Instance
     const qrCode = useRef(
@@ -51,7 +52,7 @@ const QRGenerator = () => {
             image: '',
             imageOptions: {
                 crossOrigin: 'anonymous',
-                margin: 10,
+                margin: parseInt(logoMargin),
             },
         })
     );
@@ -82,7 +83,7 @@ const QRGenerator = () => {
             image: logoImage ? URL.createObjectURL(logoImage) : '',
             imageOptions: {
                 crossOrigin: 'anonymous',
-                margin: 10,
+                margin: parseInt(logoMargin),
             },
         });
 
@@ -104,6 +105,7 @@ const QRGenerator = () => {
         dotGradientRotation,
         dotGradientStart,
         dotGradientEnd,
+        logoMargin,
     ]);
 
     const handleDownload = (format) => {
@@ -226,6 +228,15 @@ const QRGenerator = () => {
                     accept="image/*"
                     onChange={(e) => setLogoImage(e.target.files[0])}
                 />
+            </div>
+
+            <div style={{ marginTop: '1rem' }}>
+                <label>Logo Margin: </label>
+                <select value={logoMargin} onChange={(e) => setLogoMargin(e.target.value)}>
+                    <option value={1}>1</option>
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                </select>
             </div>
 
             {/* Rendered QR Code */}
