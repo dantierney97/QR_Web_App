@@ -92,6 +92,10 @@ const QRGenerator = () => {
             <select value={dotStyle} onChange={(e) => setDotStyle(e.target.value)}>
                 <option value="square">Square</option>
                 <option value="dots">Dots</option>
+                <option value="rounded">Rounded</option>
+                <option value="extra-rounded">Extra Rounded</option>
+                <option value="classy">Classy</option>
+                <option value="classy-rounded">Classy Rounded</option>
             </select>
 
             {/* Eye Shape Selector */}
