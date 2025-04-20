@@ -1,6 +1,6 @@
-// Module Imports
 import React, { useEffect, useRef, useState } from 'react';
 import QRCodeStyling from 'qr-code-styling';
+
 /**
  * 
  *  QR Code Generation
@@ -28,8 +28,13 @@ const QRGenerator = () => {
     const [dotGradientEnd, setDotGradientEnd] = useState('#ff0000');
     const [logoMargin, setLogoMargin] = useState(10);       // Logo Margin
 
+    const sanitizeColor = (color, fallback = '#ffffff') =>
+        typeof color === 'string' && /^#([0-9A-F]{3}){1,2}$/i.test(color) ? color : fallback;
+
     // Initialize qrCode on mount
     useEffect(() => {
+        if (!qrRef.current || !input) return;
+
         qrCode.current = new QRCodeStyling({
             width: 256,
             height: 256,
@@ -54,18 +59,16 @@ const QRGenerator = () => {
             },
             cornersSquareOptions: { type: eyeStyle },
             cornersDotOptions: { type: eyeStyle },
-            backgroundOptions: { color: bgColor },
-            image: logoImage ? URL.createObjectURL(logoImage) : '',
+            backgroundOptions: { color: sanitizeColor(bgColor) },
+            ...(logoImage ? { image: URL.createObjectURL(logoImage) } : {}),
             imageOptions: {
                 crossOrigin: 'anonymous',
                 margin: parseInt(logoMargin),
             },
         });
 
-        if (qrRef.current) {
-            qrRef.current.innerHTML = '';
-            qrCode.current.append(qrRef.current);
-        }
+        qrRef.current.innerHTML = '';
+        qrCode.current.append(qrRef.current);
     }, []);
 
     // Update the QR Code every time an option has been changed
@@ -90,8 +93,8 @@ const QRGenerator = () => {
             },
             cornersSquareOptions: { type: eyeStyle },
             cornersDotOptions: { type: eyeStyle },
-            backgroundOptions: { color: bgColor },
-            image: logoImage ? URL.createObjectURL(logoImage) : '',
+            backgroundOptions: { color: sanitizeColor(bgColor) },
+            ...(logoImage ? { image: URL.createObjectURL(logoImage) } : {}),
             imageOptions: {
                 crossOrigin: 'anonymous',
                 margin: parseInt(logoMargin),
@@ -133,7 +136,7 @@ const QRGenerator = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter URL or text"
-                style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
+                style={{ width: '90%', padding: '0.5rem', marginBottom: '1rem' }}
             />
 
             {/* Dot Shape Selector */}
