@@ -138,10 +138,10 @@ const QRGenerator = () => {
             {/* Input Field */}
             <input
                 type="text"
+                className="form-input"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter URL or text"
-                style={{ width: '90%', padding: '0.5rem', marginBottom: '1rem', fontSize: '16px' }}
             />
 
             {/* Dot Shape Selector */}
@@ -187,6 +187,7 @@ const QRGenerator = () => {
                         <label style={{ marginLeft: '1rem' }}>Dot Color:</label>
                         <input
                             type="color"
+                            className="form-input"
                             value={dotColor}
                             onChange={(e) => setDotColor(e.target.value)}
                         />
@@ -207,9 +208,9 @@ const QRGenerator = () => {
                             <label style={{ marginLeft: '1rem' }}>Rotation: </label>
                             <input
                                 type="number"
+                                className="form-input"
                                 value={dotGradientRotation}
                                 onChange={(e) => setDotGradientRotation(e.target.value)}
-                                style={{ width: '60px' }}
                             />
                         </div>
 
@@ -217,12 +218,14 @@ const QRGenerator = () => {
                             <label>Start Color: </label>
                             <input
                                 type="color"
+                                className="form-input"
                                 value={dotGradientStart}
                                 onChange={(e) => setDotGradientStart(e.target.value)}
                             />
                             <label style={{ marginLeft: '1rem' }}>End Color: </label>
                             <input
                                 type="color"
+                                className="form-input"
                                 value={dotGradientEnd}
                                 onChange={(e) => setDotGradientEnd(e.target.value)}
                             />
@@ -234,6 +237,7 @@ const QRGenerator = () => {
                     <label>Background: </label>
                     <input
                         type="color"
+                        className="form-input"
                         value={bgColor}
                         onChange={(e) => setBgColor(e.target.value)}
                     />
@@ -245,6 +249,7 @@ const QRGenerator = () => {
                 <label>Upload Logo (optional): </label>
                 <input
                     type="file"
+                    className="form-input"
                     accept="image/*"
                     onChange={(e) => setLogoImage(e.target.files[0])}
                 />
