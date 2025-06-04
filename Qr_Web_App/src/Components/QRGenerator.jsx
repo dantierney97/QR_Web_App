@@ -141,6 +141,11 @@ const QRGenerator = () => {
                 className="form-input"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onFocus={() => {
+                    if (input === 'This is a QR Code') {
+                        setInput('');
+                    }
+                }}
                 placeholder="Enter URL or text"
             />
 
