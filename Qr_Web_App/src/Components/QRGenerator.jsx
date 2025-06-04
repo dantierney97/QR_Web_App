@@ -192,7 +192,7 @@ const QRGenerator = () => {
                         <label style={{ marginLeft: '1rem' }}>Dot Color:</label>
                         <input
                             type="color"
-                            className="form-input"
+                            className="color-input"
                             value={dotColor}
                             onChange={(e) => setDotColor(e.target.value)}
                         />
@@ -223,14 +223,14 @@ const QRGenerator = () => {
                             <label>Start Color: </label>
                             <input
                                 type="color"
-                                className="form-input"
+                                className="color-input"
                                 value={dotGradientStart}
                                 onChange={(e) => setDotGradientStart(e.target.value)}
                             />
                             <label style={{ marginLeft: '1rem' }}>End Color: </label>
                             <input
                                 type="color"
-                                className="form-input"
+                                className="color-input"
                                 value={dotGradientEnd}
                                 onChange={(e) => setDotGradientEnd(e.target.value)}
                             />
@@ -242,7 +242,7 @@ const QRGenerator = () => {
                     <label>Background: </label>
                     <input
                         type="color"
-                        className="form-input"
+                        className="color-input"
                         value={bgColor}
                         onChange={(e) => setBgColor(e.target.value)}
                     />
