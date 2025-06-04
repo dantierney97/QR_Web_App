@@ -27,6 +27,7 @@ const QRGenerator = () => {
     const [dotGradientStart, setDotGradientStart] = useState('#000000');
     const [dotGradientEnd, setDotGradientEnd] = useState('#ff0000');
     const [logoMargin, setLogoMargin] = useState(10);       // Logo Margin
+    const [pngSize, setPngSize] = useState(1024);
 
     const sanitizeColor = (color, fallback = '#ffffff') =>
         typeof color === 'string' && /^#([0-9A-F]{3}){1,2}$/i.test(color) ? color : fallback;
@@ -36,8 +37,8 @@ const QRGenerator = () => {
         if (!qrRef.current || !input) return;
 
         qrCode.current = new QRCodeStyling({
-            width: 256,
-            height: 256,
+            width: 1024,
+            height: 1024,
             data: input,
             qrOptions: {
                 errorCorrectionLevel: errorCorrection,
@@ -123,7 +124,11 @@ const QRGenerator = () => {
     ]);
 
     const handleDownload = (format) => {
-        qrCode.current.download({ extension: format });
+        qrCode.current.download({
+            extension: format,
+            width: pngSize,
+            height: pngSize,
+        });
     };
 
     return (
@@ -136,12 +141,12 @@ const QRGenerator = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter URL or text"
-                style={{ width: '90%', padding: '0.5rem', marginBottom: '1rem' }}
+                style={{ width: '90%', padding: '0.5rem', marginBottom: '1rem', fontSize: '16px' }}
             />
 
             {/* Dot Shape Selector */}
             <label>Dot Shape: </label>
-            <select value={dotStyle} onChange={(e) => setDotStyle(e.target.value)}>
+            <select className="dropdown-select" value={dotStyle} onChange={(e) => setDotStyle(e.target.value)}>
                 <option value="square">Square</option>
                 <option value="dots">Dots</option>
                 <option value="rounded">Rounded</option>
@@ -152,7 +157,7 @@ const QRGenerator = () => {
 
             {/* Eye Shape Selector */}
             <label style={{ marginLeft: '1rem' }}>Eye Shape: </label>
-            <select value={eyeStyle} onChange={(e) => setEyeStyle(e.target.value)}>
+            <select className="dropdown-select" value={eyeStyle} onChange={(e) => setEyeStyle(e.target.value)}>
                 <option value="square">Square</option>
                 <option value="dots">Circle</option>
                 <option value="extra-rounded">Round</option>
@@ -161,7 +166,7 @@ const QRGenerator = () => {
             {/* Error Correction Level */}
             <div style={{ marginTop: '1rem' }}>
                 <label>Error Correction: </label>
-                <select value={errorCorrection} onChange={(e) => setErrorCorrection(e.target.value)}>
+                <select className="dropdown-select" value={errorCorrection} onChange={(e) => setErrorCorrection(e.target.value)}>
                     <option value="L">L (Low)</option>
                     <option value="M">M (Medium)</option>
                     <option value="Q">Q (Quartile)</option>
@@ -172,7 +177,7 @@ const QRGenerator = () => {
             {/* Color Pickers */}
             <div style={{ marginTop: '1rem' }}>
                 <label>Dot Fill Type: </label>
-                <select value={dotColorMode} onChange={(e) => setDotColorMode(e.target.value)}>
+                <select className="dropdown-select" value={dotColorMode} onChange={(e) => setDotColorMode(e.target.value)}>
                     <option value="solid">Solid</option>
                     <option value="gradient">Gradient</option>
                 </select>
@@ -191,6 +196,7 @@ const QRGenerator = () => {
                         <div style={{ marginTop: '0.5rem' }}>
                             <label>Gradient Type: </label>
                             <select
+                                className="dropdown-select"
                                 value={dotGradientType}
                                 onChange={(e) => setDotGradientType(e.target.value)}
                             >
@@ -247,7 +253,7 @@ const QRGenerator = () => {
             {logoImage && (
                 <div style={{ marginTop: '1rem' }}>
                     <label>Logo Margin: </label>
-                    <select value={logoMargin} onChange={(e) => setLogoMargin(e.target.value)}>
+                    <select className="dropdown-select" value={logoMargin} onChange={(e) => setLogoMargin(e.target.value)}>
                         <option value={1}>1</option>
                         <option value={5}>5</option>
                         <option value={10}>10</option>
@@ -258,12 +264,18 @@ const QRGenerator = () => {
             {/* Rendered QR Code */}
             <div ref={qrRef} style={{ marginTop: '1.5rem' }}></div>
 
+            <div style={{ marginTop: '1rem' }}>
+                <label>PNG Resolution: </label>
+                <select className="dropdown-select" value={pngSize} onChange={(e) => setPngSize(parseInt(e.target.value))}>
+                    <option value={512}>512 x 512</option>
+                    <option value={1024}>1024 x 1024 (High)</option>
+                    <option value={2048}>2048 x 2048 (Ultra)</option>
+                </select>
+            </div>
+
             {/* Download Buttons */}
             <div style={{ marginTop: '1rem' }}>
                 <button onClick={() => handleDownload('png')}>Download PNG</button>
-                <button onClick={() => handleDownload('svg')} style={{ marginLeft: '1rem' }}>
-                    Download SVG
-                </button>
             </div>
 
             <p>Copyright © 2025 Daniel J Tierney.</p>
