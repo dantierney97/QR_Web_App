@@ -37,8 +37,8 @@ const QRGenerator = () => {
         if (!qrRef.current || !input) return;
 
         qrCode.current = new QRCodeStyling({
-            width: 1024,
-            height: 1024,
+            width: 256,
+            height: 256,
             data: input,
             qrOptions: {
                 errorCorrectionLevel: errorCorrection,
